@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>开源免费-倒卖死妈</title>
+  <!-- 引入Tailwind CSS (注意：cdn.tailwindcss.com仅用于开发环境，生产环境应按照官方文档安装Tailwind CSS) -->
+  <!-- 生产环境安装指南: https://tailwindcss.com/docs/installation -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入Font Awesome -->
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  
+  <!-- 配置Tailwind自定义主题 -->
+  <script>
+    // 全局配置对象，包含API访问所需的凭证
+    const API_CONFIG = {
+      userId: '1013482613',
+      token: 'qf3qbnZb'
+    };
+    
+    // 在线状态映射表
+    const STATUS_MAP = {
+      0: { text: '离线', class: 'bg-online-offline/20 text-online-offline', badgeClass: 'bg-online-offline' },
+      1: { text: '游戏在线', class: 'bg-online-game/20 text-online-game', badgeClass: 'bg-online-game' },
+      2: { text: '不显示', class: 'bg-gray-700/50 text-gray-custom', badgeClass: 'bg-gray-700' },
+      3: { text: '营地在线', class: 'bg-online-camp/20 text-online-camp', badgeClass: 'bg-online-camp' },
+      4: { text: '游戏中', class: 'bg-online-ingame/20 text-online-ingame', badgeClass: 'bg-online-ingame' },
+      5: { text: '找队友', class: 'bg-online-team/20 text-online-team', badgeClass: 'bg-online-team' },
+      6: { text: '等DD', class: 'bg-online-waiting/20 text-online-waiting', badgeClass: 'bg-online-waiting' }
+    };
+
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#36CFC9',
+            dark: '#1D2129',
+            'dark-light': '#272E3B',
+            'gray-custom': '#86909C',
+            success: '#52C41A',
+            warning: '#FAAD14',
+            danger: '#FF4D4F',
+            'honor-gold': '#FFD700',
+            'honor-purple': '#9370DB',
+            'honor-red': '#FF4500',
+            'online-offline': '#86909C',
+            'online-camp': '#165DFF',
+            'online-game': '#52C41A',
+            'online-ingame': '#FAAD14',
+            'online-team': '#9370DB',
+            'online-waiting': '#FF4D4F'
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .card-shadow {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      }
+      .text-gradient {
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+      .animate-float {
+        animation: float 3s ease-in-out infinite;
+      }
+      .animate-scale-pulse {
+        animation: scalePulse 2s ease-in-out infinite;
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .avatar-frame {
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        background: linear-gradient(135deg, #165DFF, #36CFC9) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask-composite: exclude;
+      }
+      .honor-glow {
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+      }
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes scalePulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+
+<body class="bg-dark text-white font-inter min-h-screen flex flex-col">
+  <!-- 页面头部 -->
+  <header class="bg-dark-light/80 backdrop-blur-md border-b border-gray-700/30 sticky top-0 z-50 transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-xl md:text-2xl font-bold text-gradient bg-gradient-to-r from-primary to-secondary">
+        <img src="https://game.gtimg.cn/images/gp/public/logo.png" alt="和平KD查" class="w-8 h-8 inline-block mr-2">
+        和平KD查-BY：Lun.
+      </h1>
+      <a href="https://github.com/Lun-OS/hpjyckd" target="_blank" rel="noopener noreferrer" class="p-2 rounded-full hover:bg-gray-700/50 transition-colors">
+        <i class="fa fa-github"></i>
+      </a>
+    </div>
+  </header>
+
+  <!-- 主要内容区 -->
+  <main class="flex-grow container mx-auto px-4 py-6">
+    <!-- 搜索区域 -->
+    <section id="search-section" class="mb-8 transition-all duration-500">
+      <div class="bg-dark-light rounded-xl p-4 md:p-6 card-shadow">
+        <h2 class="text-lg md:text-xl font-semibold mb-4">搜索用户</h2>
+        <div class="flex flex-col md:flex-row gap-3">
+          <div class="relative flex-grow">
+           
